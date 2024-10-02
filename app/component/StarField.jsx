@@ -14,6 +14,9 @@ const StarField = ({ starPositions }) => {
 
   const toggleDrawingMode = () => {
     setDrawingMode((prevMode) => !prevMode);
+    if(drawingMode === true){
+      setShowModal(false);
+    }
   };
 
   useEffect(() => {
@@ -75,8 +78,11 @@ const StarField = ({ starPositions }) => {
 
       if (intersects.length > 0) {
         const starIndex = intersects[0].index; 
-        setSelectedStar(starsInfo[starIndex]); 
+        setSelectedStar(starsInfo[starIndex]);
         setShowModal(true); 
+        if(drawingMode === true){
+          setShowModal(false);
+        } 
       }
     };
 
