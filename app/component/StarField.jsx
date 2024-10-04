@@ -72,8 +72,8 @@ const StarField = ({ starPositions }) => {
     //camera.up = (0,1,0);
     camera.position.set(0,20,0);
     camera.lookAt(0,20,-30);
-    const cameraHelper = new THREE.CameraHelper(camera);
-    scene.add(cameraHelper);
+    //const cameraHelper = new THREE.CameraHelper(camera);
+    //scene.add(cameraHelper);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -129,10 +129,10 @@ const StarField = ({ starPositions }) => {
     
     const exoPlanetMaterial = new THREE.MeshStandardMaterial({side:THREE.DoubleSide, 
     map:exoPlanetSurfaceTexture});
-    exoPlanetMaterial.bumpMap = exoPlanetBumpMap;
-    exoPlanetMaterial.bumpScale = 400;
-    exoPlanetMaterial.displacementMap = exoPlanetDispMap;
-    exoPlanetMaterial.displacementScale = 100;
+    //exoPlanetMaterial.bumpMap = exoPlanetBumpMap;
+    //exoPlanetMaterial.bumpScale = 400;
+    //exoPlanetMaterial.displacementMap = exoPlanetDispMap;
+    //exoPlanetMaterial.displacementScale = 100;
     
     const exoPlanet = new THREE.Mesh(exoPlanetSurfaceGeo,exoPlanetMaterial);
     exoPlanet.position.set(0,0,0);
