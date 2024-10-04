@@ -1,14 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import React, { useState,useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Canvas } from "@react-three/fiber";
 import { Stars, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-
 import P5WrapperComponent from '../component/Sketch';
 import Search from '../component/Search';
 import Planet from '../component/Planet';
-
 
 
 function CameraController() {
@@ -20,7 +18,6 @@ function CameraController() {
     />
   );
 }
-
 
 const dummyData = [
   {
@@ -63,16 +60,16 @@ const Planets = () => {
     .filter((planet) => planet.pl_name.toLowerCase().startsWith(query.toLowerCase()))
     .sort((a, b) => a.pl_name.localeCompare(b.pl_name));
 
-
   if (cameraRef.current) {
-    cameraRef.current.position.lerp(targetPosition.current, easedT);
+    cameraRef.current.position.lerp(new THREE.Vector3(0, 0, 5), 0.1); // Update position smoothly
     cameraRef.current.lookAt(0, 0, 0); // Ensure the camera looks at the origin
   }
 
-
   return (
-    <div>
+    <div className='w-full h-screen relative'>
+      {/* Canvas for background and stars */}
       <Canvas
+        className="absolute top-0 left-0 z-0"
         camera={{ position: [0, 0, 5] }}
         onCreated={({ camera }) => (cameraRef.current = camera)}
       >
@@ -90,32 +87,35 @@ const Planets = () => {
         <CameraController />
       </Canvas>
 
-      <div className='max-w-[90%] mx-auto flex flex-col justify-center '>
-
-        {/* <div className='h-[70vh] w-full overflow-hidden' > 
-        <P5WrapperComponent />
-      </div> */}
-        <div className='flex justify-between w-full border border-gray-300 rounded p-4 my-5'>
+      {/* Main content with flex layout */}
+      <div className='relative z-10 max-w-[90%] mx-auto flex flex-col justify-center h-full'>
+        {/* Optional P5 Sketch */}
+        {/* <div className='h-[70vh] w-full overflow-hidden'>
+          <P5WrapperComponent />
+        </div> */}
+        
+        <div className='flex justify-between w-full border border-gray-300 rounded p-4 my-5 bg-white/90 backdrop-blur-md'>
           {/* Planets Container */}
           <div className='w-[70%] bg-gray-200 m-5 p-2 rounded-md flex flex-col'>
             <h1 className='text-3xl sm:text-5xl font-bold p-5 mt-5'>
               Explore Planets
             </h1>
             <div className='w-[200px] border-b-4 border-gray-500 mb-10 ml-5 '></div>
-            <div className='text-xl sm:text-xl font-bold mb-5 p-5' >
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            <div className='text-xl sm:text-xl font-bold mb-5 p-5'>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...
             </div>
+
             {/* Displaying recommended planets as cards in a grid */}
             <div className='grid grid-cols-3 gap-4 px-3'>
-              {dummyData.map((planet) => (
+              {filteredResults.map((planet) => (
                 <Planet key={planet.pl_name} planet={planet} />
               ))}
             </div>
           </div>
 
           {/* Search Container */}
-          <div className='w-[25%] bg-gray-200 m-5 p-2 rounded-md flex flex-col h-[500px]  '>
-            <Search dummyData={dummyData} />
+          <div className='w-[25%] bg-gray-200 m-5 p-2 rounded-md flex flex-col h-[500px]'>
+            <Search dummyData={dummyData} setQuery={setQuery} />
           </div>
         </div>
       </div>
