@@ -34,3 +34,67 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Byte-compiled / optimized / DLL files
+api/__pycache__
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+ENV/
+.env
+.venv
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+pip-wheel-metadata/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Test coverage
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Pytest
+.cache
+pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Pylint
+pylint-report.txt
+pylint-global.txt
+
+# VS Code
+.vscode/
+
+# Ignore any local configuration files
+*.local
+*.env
+
+# Other temporary files
+*.log
+*.tmp
