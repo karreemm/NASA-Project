@@ -1,9 +1,26 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import React, { useState } from 'react';
+import { Canvas } from "@react-three/fiber";
+import { Stars, OrbitControls } from "@react-three/drei";
+import * as THREE from "three";
+
 import P5WrapperComponent from '../component/Sketch';
 import Search from '../component/Search';
 import Planet from '../component/Planet'; 
+
+
+
+function CameraController() {
+  return (
+    <OrbitControls
+      enableZoom={false}
+      enablePan={false}
+      enableRotate={false}
+    />
+  );
+}
+
 
 const dummyData = [
   {
@@ -47,11 +64,29 @@ const Planets = () => {
 
   return (
     <div>
+    <Canvas
+        camera={{ position: [0, 0, 5] }}
+        onCreated={({ camera }) => (cameraRef.current = camera)}
+      >
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        <Stars
+          radius={100}
+          depth={60}
+          count={5000}
+          factor={4}
+          saturation={0}
+          fade
+          speed={1}
+        />
+        <CameraController />
+      </Canvas>
     
     <div className='max-w-[90%] mx-auto flex flex-col justify-center '>
-      <div className='h-[70vh] w-full overflow-hidden' > 
+
+      {/* <div className='h-[70vh] w-full overflow-hidden' > 
         <P5WrapperComponent />
-      </div>
+      </div> */}
       <div className='flex justify-between w-full border border-gray-300 rounded p-4 my-5'>
         {/* Planets Container */}
         <div className='w-[70%] bg-gray-200 m-5 p-2 rounded-md flex flex-col'>
