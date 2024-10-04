@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import React, { useState } from 'react';
-import P5WrapperComponent from '../component/Slides'; // P5WrapperComponent
+import P5WrapperComponent from '../component/Sketch';
 import Search from '../component/Search';
 import Planet from '../component/Planet'; 
 
