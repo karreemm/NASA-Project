@@ -65,9 +65,9 @@ const Planets = () => {
 
   return (
     
-    <div className='w-full h-screen  bg-black'>
+    <div className='w-full h-[1500px] relative bg-black'>
+
       <Canvas
-        className="absolute top-0 left-0 w-full h-full "
         camera={{ position: [0, 0, 5] }}
         onCreated={({ camera }) => (cameraRef.current = camera)}
       >
@@ -86,12 +86,12 @@ const Planets = () => {
       </Canvas>
 
       {/* Main content with flex layout */}
-      <div className=' max-w-[90%] mx-auto flex flex-col justify-center relative bg-black'>
+      <div className=' absolute top-0 mx-10  flex flex-col justify-center '>
         
-        <div className='flex justify-between w-full border  bg-gradient-nasa bg-clip-text border-gray-300 rounded p-4 my-5'>
+        <div className='flex justify-between w-full  my-5'>
           
           {/* Planets Container */}
-          <div className='w-[70%] text-white m-5 p-5 rounded-md flex flex-col'>
+          <div className='w-[70%] text-white m-5 rounded-md flex flex-col'>
             <h1 className='text-3xl sm:text-5xl font-bold p-5 mt-5'>
               Explore Planets
             </h1>
@@ -101,7 +101,7 @@ const Planets = () => {
             </div>
 
             {/* Displaying recommended planets as cards in a grid */}
-            <div className='grid grid-cols-3 gap-5 p-5'>
+            <div className='grid grid-cols-3 gap-10 p-10'>
               {filteredResults.map((planet) => (
                 <Planet key={planet.pl_name} planet={planet} />
               ))}
