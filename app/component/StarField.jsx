@@ -4,16 +4,19 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEraser, faX, faPencil, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { faShare, faX, faPencil, faFloppyDisk, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import StarData from "./StarData"
+import Form from "../Form/Form";
 
 const StarField = ({ starPositions }) => {
+
   const [selectedStar, setSelectedStar] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [drawingMode, setDrawingMode] = useState(false);
   const rendererRef = useRef();
   const sceneRef = useRef();
   const cameraRef = useRef();
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   let drawing = false;
   let currentLine;
@@ -26,6 +29,9 @@ const StarField = ({ starPositions }) => {
   const stopDrawing = () => {
     setDrawingMode(false);
   }
+
+  const openForm = () => setIsFormOpen(true);
+  const closeForm = () => setIsFormOpen(false);
 
   const captureScreenshot = () => {
     if (rendererRef.current) {
@@ -79,21 +85,21 @@ const StarField = ({ starPositions }) => {
 
     const starVertices = [];
     const starsInfo = [];
-
+    
     const sphereRadius = 150;
     const starCount = starPositions?.length || 1000;
-
+    
     for (let i = 0; i < starCount; i++) {
       const theta = Math.random() * Math.PI * 2; // Random azimuthal angle
-      const phi = Math.acos((Math.random() * 2) - 1); // Random polar angle
+      const phi = Math.random() * Math.PI / 2; // Random polar angle in the upper hemisphere
       const x = sphereRadius * Math.sin(phi) * Math.cos(theta);
       const y = sphereRadius * Math.sin(phi) * Math.sin(theta);
       const z = sphereRadius * Math.cos(phi);
-
+    
       starVertices.push(x, y, z);
       starsInfo.push({ id: i, name: `Star ${i + 1}`, description: `Info about star ${i + 1}` });
     }
-
+    
     starGeometry.setAttribute("position", new THREE.Float32BufferAttribute(starVertices, 3));
     const stars = new THREE.Points(starGeometry, starMaterial);
     scene.add(stars);
@@ -210,10 +216,12 @@ const StarField = ({ starPositions }) => {
         </div>
       )}
 
+      <Form isOpen={isFormOpen} onClose={closeForm} />
+
       <div className="fixed top-10 left-10 flex space-x-5 w-full">
         <button
           onClick={startDrawing}
-          className="bg-blue-500 w-10 h-10 text-xl rounded-full text-white hover:bg-blue-600 focus:outline-none flex items-center justify-center"
+          className="bg-[#507687] w-10 h-10 text-xl rounded-full text-white hover:opacity-80 focus:outline-none flex items-center justify-center"
         >
           <FontAwesomeIcon icon={faPencil} />
         </button>
@@ -223,15 +231,21 @@ const StarField = ({ starPositions }) => {
               <div className="flex gap-5">
                 <button
                   onClick={removeLastLine}
-                  className="bg-red-600 w-10 h-10 text-xl rounded-full text-white hover:bg-red-700 focus:outline-none flex items-center justify-center"
+                  className="bg-[#B8001F] w-10 h-10 text-xl rounded-full text-white hover:opacity-80 focus:outline-none flex items-center justify-center"
                 >
-                  <FontAwesomeIcon icon={faEraser} />
+                  <FontAwesomeIcon icon={faRotateLeft} />
                 </button>
                 <button
                   onClick={captureScreenshot}
-                  className="bg-green-600 w-10 h-10 text-xl rounded-full text-white hover:bg-green-700 focus:outline-none flex items-center justify-center"
+                  className="bg-[#795757] w-10 h-10 text-xl rounded-full text-white hover:opacity-80 focus:outline-none flex items-center justify-center"
                 >
                   <FontAwesomeIcon icon={faFloppyDisk} />
+                </button>
+                <button
+                  onClick={openForm}
+                  className="bg-[#FD8B51] w-10 h-10 text-xl rounded-full text-white hover:opacity-80 focus:outline-none flex items-center justify-center"
+                >
+                  <FontAwesomeIcon icon={faShare} />
                 </button>
               </div>
               
