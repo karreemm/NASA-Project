@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from io import StringIO
 import requests
-import pandas as pd
-import json
+# import json
 from pydantic import BaseModel
 from astroquery.gaia import Gaia
 import astropy.units as u
@@ -11,6 +10,7 @@ from astropy.coordinates import SkyCoord
 from typing import List, Optional
 from form import router as form_router 
 from fastapi.middleware.cors import CORSMiddleware 
+import csv
 
 app = FastAPI()
 
@@ -68,9 +68,10 @@ def cone_search(ra: float, dec: float, radius: float):
 
     # Select only the required columns
     columns_to_keep = ['ra', 'dec', 'parallax', 'pmra', 'pmdec', 'phot_g_mean_mag', 'bp_rp']
-    filtered_results = r[columns_to_keep]
+    filtered_results = [{col: row[col] for col in columns_to_keep} for row in r]
 
-
+    # Prepare the response
+    
     # Prepare the response
     stars = []
     for row in filtered_results:
@@ -106,9 +107,7 @@ G = 0.00029591220828559104  # day, AU, Msun
 # Keplerian semi-major axis (au)
 sa = lambda m, P: (G * m * P ** 2 / (4 * pi ** 2)) ** (1. / 3)
 
-def tap_query(base_url, query, dataframe=True):
-    # Table Access Protocol query
-
+def tap_query(base_url, query):
     # Build URL
     uri_full = base_url
     for k in query:
@@ -119,23 +118,28 @@ def tap_query(base_url, query, dataframe=True):
     uri_full = uri_full.replace(' ', '+')
     
     response = requests.get(uri_full, timeout=90)
+    csv_data = response.text
+    
+    # Parse CSV data manually
+    data = []
+    reader = csv.DictReader(StringIO(csv_data)) 
+    for row in reader:
+        data.append(row)
+    
+    return data
 
-    if dataframe:
-        return pd.read_csv(StringIO(response.text))
-    else:
-        return response.text
-
-def new_scrape2(limit=-1,pl_name=""):
+def new_scrape2(limit=-1, pl_name=""):
     uri_ipac_base = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query="
     where_clause = "tran_flag = 1 AND default_flag = 1"
+    
     if pl_name != "":
         where_clause += f" AND LOWER(pl_name) LIKE LOWER('%{pl_name}%')"  # Case insensitive match
 
     select_clause = "pl_name,hostname,tran_flag,pl_massj,pl_orbper,ra,dec"
+    
     if limit > 0:
         select_clause = f"TOP {limit} pl_name,hostname,tran_flag,pl_massj,pl_orbper,ra,dec"
     
-
     uri_ipac_query = {
         "select": select_clause,
         "from": "ps",
@@ -143,14 +147,15 @@ def new_scrape2(limit=-1,pl_name=""):
         "format": "csv"
     }
 
-    default = tap_query(uri_ipac_base, uri_ipac_query)
-    default = default.head(limit) 
-    return default.dropna(axis=1)
-
+    data = tap_query(uri_ipac_base, uri_ipac_query)
+    
+    # Manually filter data if needed (e.g., limiting number of rows)
+    if limit > 0:
+        data = data[:limit]
+    
+    return data
 
 @app.get("/exoplanets")
-async def get_exoplanets(limit: int = -1,pl_name=""):
-    dataframe = new_scrape2(limit,pl_name)
-    json_data = json.loads(dataframe.to_json(orient='table', index=False))
-    return JSONResponse(content=json_data.get('data'))
-
+async def get_exoplanets(limit: int = -1, pl_name=""):
+    data = new_scrape2(limit, pl_name)
+    return JSONResponse(content=data)
