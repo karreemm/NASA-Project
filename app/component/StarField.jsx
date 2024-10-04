@@ -7,6 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faX, faPencil, faFloppyDisk, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import StarData from "./StarData"
 import Form from "../Form/Form";
+import earthColorCmap from '../assets/earth-color-map.jpg';
+import earthBumpMap from  '../assets/earth-bump-map.jpg';
+import earthDispMap from '../assets/earth-disp-map.jpg';
+
 
 const StarField = ({ starPositions }) => {
 
@@ -65,9 +69,12 @@ const StarField = ({ starPositions }) => {
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0,30,0);
-    camera.lookAt(0,0,-40);
-    
+    //camera.up = (0,1,0);
+    camera.position.set(0,20,0);
+    camera.lookAt(0,20,-30);
+    const cameraHelper = new THREE.CameraHelper(camera);
+    scene.add(cameraHelper);
+
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -83,7 +90,7 @@ const StarField = ({ starPositions }) => {
     controls.dampingFactor = 0.1;
     controls.zoomSpeed = 0.5;
     controls.rotateSpeed = 0.5;
-    controls.target.set(0,30,10);
+    controls.target.set(0,20,0);
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
@@ -101,8 +108,8 @@ const StarField = ({ starPositions }) => {
       const theta = Math.random() * Math.PI * 2; // Random azimuthal angle
       const phi = Math.random() * Math.PI / 2; // Random polar angle in the upper hemisphere
       const x = sphereRadius * Math.sin(phi) * Math.cos(theta);
-      const y = sphereRadius * Math.sin(phi) * Math.sin(theta);
-      const z = sphereRadius * Math.cos(phi);
+      const y = sphereRadius * Math.cos(phi);
+      const z = sphereRadius * Math.sin(phi) * Math.sin(theta);
     
       starVertices.push(x, y, z);
       starsInfo.push({ id: i, name: `Star ${i + 1}`, description: `Info about star ${i + 1}` });
@@ -116,14 +123,9 @@ const StarField = ({ starPositions }) => {
     //Exoplanet Setup
     const exoPlanetSurfaceGeo = new THREE.PlaneGeometry(3000,3000,300,300);
 
-    const exoPlanetTexturePath = '../assets/earth-color-map.jpg';
-    const exoPlanetSurfaceTexture = new THREE.TextureLoader().load(exoPlanetTexturePath);
-    
-    const exoPlanetBumpMapPath = '../assets/earth-bump-map.jpg';
-    const exoPlanetBumpMap = new THREE.TextureLoader().load(exoPlanetBumpMapPath);
-    
-    const exoPlanetDispMapPath = "../assets/earth-disp-map.jpg";
-    const exoPlanetDispMap = new THREE.TextureLoader().load(exoPlanetDispMapPath);
+    const exoPlanetSurfaceTexture = new THREE.TextureLoader().load(earthColorCmap.src);
+    const exoPlanetBumpMap = new THREE.TextureLoader().load(earthBumpMap.src);
+    const exoPlanetDispMap = new THREE.TextureLoader().load(earthDispMap.src);
     
     const exoPlanetMaterial = new THREE.MeshStandardMaterial({side:THREE.DoubleSide, 
     map:exoPlanetSurfaceTexture});
@@ -138,11 +140,11 @@ const StarField = ({ starPositions }) => {
     scene.add(exoPlanet);
 
 
-    controls.update();
+    //controls.update();
 
     const skyColor = new THREE.Color(0x000022);
-    scene.fog = new THREE.FogExp2(skyColor, 0.001);
-    const ambientLight = new THREE.AmbientLight(0x555555);
+    //scene.fog = new THREE.FogExp2(skyColor, 0.001);
+    const ambientLight = new THREE.AmbientLight(0xffffff);
     scene.add(ambientLight);
 
     const onMouseClick = (event) => {
@@ -165,14 +167,15 @@ const StarField = ({ starPositions }) => {
 
     window.addEventListener("click", onMouseClick);
 
+    
     if (drawingMode) {
-      camera.position.set(0, 0, 200);
+      //camera.position.set(0, 0, 200);
       controls.enableRotate = false;
     } else {
-      camera.position.set(0, 0, 50);
+      //camera.position.set(0, 0, 50);
       controls.enableRotate = true;
     }
-    controls.update();
+    controls.update(); 
 
     renderer.domElement.addEventListener("mousedown", (event) => {
       if (!drawingMode) return;
