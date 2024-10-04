@@ -4,10 +4,17 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 import base64
 from typing import Optional
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 router = APIRouter()
 
-client = MongoClient("mongodb://127.0.0.1:27017")  
+# Use the connection string from the environment variable
+mongo_uri = os.getenv("MONGODB_URI")
+client = MongoClient(mongo_uri)  
 db = client['nasa-form']  
 collection = db['contribute']  
 
