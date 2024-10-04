@@ -17,24 +17,24 @@ const Search = ({ dummyData }) => {
                 placeholder="Search planet name..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)} 
-                className='mt-2 p-2 w-full border-2 border-gray-300 rounded-md'
+                className='mt-2 p-2 w-full border-2 border-gray-300 rounded-md text-slate-800'
             />
 
             
             {!query && (
-                <p className='mt-2 text-gray-500'>
+                <p className='mt-2 text-gray-300'>
                     Search on exoplanety encyclopedia — continuously updated, with more than 5500 entries — interactive 3D models and detailed data on all confirmed exoplanets. Choose a planet name to see a visualization of each world and system.
                 </p>
             )}
 
             
             {query && (
-                <ul className='mt-2 bg-white border border-gray-300 rounded-md overflow-y-auto max-h-[335px]'>
+                <ul className='mt-2  border border-gray-300 rounded-md overflow-y-auto max-h-[335px]'>
                     {filteredResults.length > 0 ? (
                         filteredResults.map((planet) => (
                             <li key={planet.pl_name}>
                                 <Link href={`/`}>
-                                    <div className='p-2 hover:bg-slate-100 cursor-pointer block'>
+                                    <div className='p-2 hover:bg-slate-100 hover:text-slate-800 cursor-pointer block'>
                                         {planet.pl_name} - {planet.hostname}
                                     </div>
                                 </Link>
