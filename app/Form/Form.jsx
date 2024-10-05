@@ -6,16 +6,55 @@ import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
 const Form = ({ isOpen, onClose }) => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [planetName, setPlanetName] = useState("");
+  const [constellationName, setConstellationName] = useState("");
+  const [drawing, setDrawing] = useState(null);
 
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [planetName, setPlanetName] = useState("");
-    const [constellationName, setConstellationName] = useState("");
-    const [drawing, setDrawing] = useState("");
+  const handleFileChange = (e) => {
+    setDrawing(e.target.files[0]); // Capture the actual file object
+  };
 
-    const handleSubmit = (e) => {
-        
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData();
+    formData.append('full_name', fullName);
+    formData.append('email', email);
+    formData.append('planet_name', planetName);
+    formData.append('constellation_name', constellationName);
+    if (drawing) {
+      formData.append('drawing', drawing); // Append the file directly
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/submit_form/', { // Update this URL
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+      console.log(result);
+
+      // Clear the form after successful submission
+      setFullName("");
+      setEmail("");
+      setPlanetName("");
+      setConstellationName("");
+      setDrawing(null); // Reset file input
+
+      // Optional: Clear the actual file input element if necessary
+      document.getElementById("drawing").value = null;
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <div>
@@ -57,7 +96,7 @@ const Form = ({ isOpen, onClose }) => {
                   id="email"
                   name="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}  
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full p-3 mt-1 bg-gray-800 rounded-lg text-white"
                   placeholder="Enter your email"
                   required
@@ -105,8 +144,7 @@ const Form = ({ isOpen, onClose }) => {
                   type="file"
                   id="drawing"
                   name="drawing"
-                  value={drawing}
-                  onChange={(e) => setDrawing(e.target.value)}
+                  onChange={handleFileChange} // Handle file input change
                   className="w-full p-3 mt-1 bg-gray-800 rounded-lg text-white"
                   accept="image/*"
                 />

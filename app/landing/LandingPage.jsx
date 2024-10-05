@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
@@ -27,7 +26,7 @@ export default function LandingPage() {
   const [section, setSection] = useState("home");
   const targetPosition = useRef(new THREE.Vector3(0, 0, 5));
   const animationRef = useRef(null);
-  const [opacity, setOpacity] = useState(1); 
+  const [opacity, setOpacity] = useState(1);
   const [translateY, setTranslateY] = useState(-100);
 
   const easeInOutCubic = (t) => {
@@ -118,28 +117,28 @@ export default function LandingPage() {
       {/* Buttons for camera movement */}
       <div className="w-full flex justify-center">
         <div className="z-30 absolute top-5 flex justify-between w-[90%]">
-            <button
-                onClick={moveCameraLeft}
-                className="text-white border font-bold border-white flex items-center justify-center gap-2 px-6 py-3 rounded-full shadow-lg transition hover:opacity-80"
-            >
-                <FontAwesomeIcon icon={faBookBookmark} className="text-white" />
-                <p className="hidden md:flex">References</p>
-            </button>
-            <button
-                onClick={moveCameraHome}
-                className="flex items-center border border-white font-bold justify-center gap-2 px-6 py-3 text-white rounded-full shadow-lg transition hover:opacity-80"
-            >
-                <FontAwesomeIcon icon={faHouse} className="" />
-                <p className="hidden md:flex">Home</p>
-            </button>
-            <button
-                onClick={moveCameraRight}
-                className="flex items-center border border-white font-bold justify-center gap-2 px-6 py-3 text-white rounded-full shadow-lg transition hover:opacity-80"
-            >
-                <FontAwesomeIcon icon={faChartLine} className="" />
-                <p className="hidden md:flex">Statistics</p>
-                
-            </button>
+          <button
+            onClick={moveCameraLeft}
+            className="text-white border font-bold border-white flex items-center justify-center gap-2 px-6 py-3 rounded-full shadow-lg transition hover:opacity-80"
+          >
+            <FontAwesomeIcon icon={faBookBookmark} className="text-white" />
+            <p className="hidden md:flex">References</p>
+          </button>
+          <button
+            onClick={moveCameraHome}
+            className="flex items-center border border-white font-bold justify-center gap-2 px-6 py-3 text-white rounded-full shadow-lg transition hover:opacity-80"
+          >
+            <FontAwesomeIcon icon={faHouse} className="" />
+            <p className="hidden md:flex">Home</p>
+          </button>
+          <button
+            onClick={moveCameraRight}
+            className="flex items-center border border-white font-bold justify-center gap-2 px-6 py-3 text-white rounded-full shadow-lg transition hover:opacity-80"
+          >
+            <FontAwesomeIcon icon={faChartLine} className="" />
+            <p className="hidden md:flex">Statistics</p>
+
+          </button>
         </div>
       </div>
 
@@ -149,20 +148,20 @@ export default function LandingPage() {
           className="w-[90%] md:w-[65%] mx-auto absolute inset-0 flex flex-col items-center justify-center gap-8 transition-all duration-500"
           style={{ opacity, transform: `translateY(${translateY}px)` }}
         >
-            <p className="text-2xl md:text-4xl font-bold bg-gradient-nasa bg-clip-text text-transparent">
-                Explore the Exosky: Your Space Adventure Starts Here!
-            </p>
-            <p className="md:text-xl text-white">
-                Pick a planet and embark on an exciting journey to explore the stars! 
-                Use your creativity to draw and connect the stars, crafting your very
-                 own constellations. Once you're done, save your artwork and share it with
-                  us to contribute to our community! 
-            </p>
-            <Link href="/explore">
-                <span className="inline-block border border-white text-xl px-6 py-3 font-bold bg-gradient-nasa bg-clip-text text-transparent rounded-full shadow-lg transition-all duration-300 hover:opacity-90">
-                    Start Exploring
-                </span>
-            </Link>
+          <p className="text-2xl md:text-4xl font-bold bg-gradient-nasa bg-clip-text text-transparent">
+            Explore the Exosky: Your Space Adventure Starts Here!
+          </p>
+          <p className="md:text-xl text-white">
+            Pick a planet and embark on an exciting journey to explore the stars!
+            Use your creativity to draw and connect the stars, crafting your very
+            own constellations. Once you're done, save your artwork and share it with
+            us to contribute to our community!
+          </p>
+          <Link href="/explore">
+            <span className="inline-block border border-white text-xl px-6 py-3 font-bold bg-gradient-nasa bg-clip-text text-transparent rounded-full shadow-lg transition-all duration-300 hover:opacity-90">
+              Start Exploring
+            </span>
+          </Link>
         </div>
       )}
 
@@ -175,29 +174,29 @@ export default function LandingPage() {
             <h2 className="text-2xl md:text-4xl font-bold bg-gradient-nasa bg-clip-text text-transparent">Statistics</h2>
             <div className="mx-auto flex flex-col md:flex md:flex-row md:justify-center gap-10 text-gray-200">
 
-                <div className="relative bg-gradient-to-b from-blue-900 to-black rounded-3xl px-10 md:py-48 py-10 shadow-lg transition-transform transform hover:scale-105">
-                    <img
-                    src={PlanetImg.src}
-                    alt="Planet"
-                    className="absolute inset-0 w-full h-full object-cover opacity-20 rounded-3xl pointer-events-none"
-                    />
-                    <div className="relative z-10">
-                    <h3 className="text-xl font-semibold">Number of Planets</h3>
-                    <p className="text-2xl font-bold">5500+</p>
-                    </div>
+              <div className="relative bg-gradient-to-b from-blue-900 to-black rounded-3xl px-10 md:py-48 py-10 shadow-lg transition-transform transform hover:scale-105">
+                <img
+                  src={PlanetImg.src}
+                  alt="Planet"
+                  className="absolute inset-0 w-full h-full object-cover opacity-20 rounded-3xl pointer-events-none"
+                />
+                <div className="relative z-10">
+                  <h3 className="text-xl font-semibold">Number of Planets</h3>
+                  <p className="text-2xl font-bold">5500+</p>
                 </div>
+              </div>
 
-                <div className="relative bg-gradient-to-b from-purple-900 to-black rounded-3xl px-10 md:py-48 py-10 shadow-lg transition-transform transform hover:scale-105">
-                    <img
-                    src={StarImg.src}
-                    alt="Stars"
-                    className="absolute inset-0 w-full h-full object-cover opacity-20 rounded-3xl pointer-events-none"
-                    />
-                    <div className="relative z-10">
-                    <h3 className="text-xl font-semibold">Stars per Planet</h3>
-                    <p className="text-2xl font-bold">1000+</p>
-                    </div>
+              <div className="relative bg-gradient-to-b from-purple-900 to-black rounded-3xl px-10 md:py-48 py-10 shadow-lg transition-transform transform hover:scale-105">
+                <img
+                  src={StarImg.src}
+                  alt="Stars"
+                  className="absolute inset-0 w-full h-full object-cover opacity-20 rounded-3xl pointer-events-none"
+                />
+                <div className="relative z-10">
+                  <h3 className="text-xl font-semibold">Stars per Planet</h3>
+                  <p className="text-2xl font-bold">1000+</p>
                 </div>
+              </div>
             </div>
 
           </div>
@@ -212,16 +211,16 @@ export default function LandingPage() {
           <div className="text-center flex flex-col gap-5 w-[90%] md:w-[65%]">
             <h2 className="text-2xl md:text-4xl font-bold bg-gradient-nasa bg-clip-text text-transparent">References</h2>
             <p className="text-white md:text-xl">
-                We use NASA APIs to explore the universe! With their powerful tools, we gather information about different planets and the stars around them, including their positions. Discover the wonders of space with us!
-                &nbsp;
-                <a
-                    href="https://api.nasa.gov/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-teal-400"
-                >
-                    Learn more about NASA APIs.
-                </a>
+              We use NASA APIs to explore the universe! With their powerful tools, we gather information about different planets and the stars around them, including their positions. Discover the wonders of space with us!
+              &nbsp;
+              <a
+                href="https://api.nasa.gov/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal-400"
+              >
+                Learn more about NASA APIs.
+              </a>
             </p>
           </div>
         </div>

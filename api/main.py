@@ -8,9 +8,23 @@ from astroquery.gaia import Gaia
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 from typing import List, Optional
+from form import router as form_router 
+from fastapi.middleware.cors import CORSMiddleware 
 import csv
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Allow requests from React app
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
+# form api
+app.include_router(form_router)
+
 
 # Define the response model
 class StarData(BaseModel):
