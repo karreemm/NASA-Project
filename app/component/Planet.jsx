@@ -3,18 +3,22 @@
 import React from 'react';
 import Link from 'next/link';
 import EARTH from '../assets/earth.jpeg';
+import { useRouter } from 'next/navigation';
 
 const Planet = ({ planet }) => {
-
+    const router = useRouter();
+    const routetoPlanet = (planet) => {
+        router.push(`/skyview?name=${planet.pl_name}&hostname=${planet.hostname}&tran_flag=${planet.tran_flag}&pl_massj=${planet.pl_massj}&pl_orbper=${planet.pl_orbper}&ra=${planet.ra}&dec=${planet.dec}`);
+    }
     return (
         <div className="relative bg-gradient-to-b from-blue-900 h-[500px] to-black rounded-3xl px-10 md:py-32 py-10 shadow-lg transition-transform transform hover:scale-105">
-            <Link href="/" passHref>
+            <button onClick={() => routetoPlanet(planet)}>
                 <img
                     src={EARTH.src}
                     alt={planet.pl_name}
                     className="absolute inset-0 w-full h-full object-cover opacity-20 rounded-3xl pointer-events-none"
                 />
-            </Link>
+            </button>
             
             {/* Planet details positioned at bottom-left */}
             <div className=' absolute z-10 bottom-10 left-10'>
