@@ -11,7 +11,7 @@ const Planet = ({ planet }) => {
         router.push(`/skyview?name=${planet.pl_name}&hostname=${planet.hostname}&tran_flag=${planet.tran_flag}&pl_massj=${planet.pl_massj}&pl_orbper=${planet.pl_orbper}&ra=${planet.ra}&dec=${planet.dec}`);
     }
     return (
-        <div className="relative bg-gradient-to-b from-blue-900 h-[500px] to-black rounded-3xl px-10 md:py-32 py-10 shadow-lg transition-transform transform hover:scale-105">
+        <div onClick={() => routetoPlanet(planet)} className="cursor-pointer relative bg-gradient-to-b from-blue-900 h-[500px] to-black rounded-3xl px-10 md:py-32 py-10 shadow-lg transition-transform transform hover:scale-105">
             <button onClick={() => routetoPlanet(planet)}>
                 <img
                     src={EARTH.src}

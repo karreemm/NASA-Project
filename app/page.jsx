@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <div>
-      <StarField />
+      <LandingPage />
     </div> 
   );
 }

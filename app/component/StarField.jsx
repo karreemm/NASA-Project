@@ -21,7 +21,22 @@ const StarField = ({ starPositions }) => {
   const sceneRef = useRef();
   const cameraRef = useRef();
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [queries, setQueries] = useState({});
 
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const initialQueries = {
+      name: params.get('name') || '',
+      hostname: params.get('hostname') || '',
+      tran_flag: params.get('tran_flag') || '',
+      pl_massj: params.get('pl_massj') || '',
+      pl_orbper: params.get('pl_orbper') || '',
+      ra: params.get('ra') || '',
+      dec: params.get('dec') || ''
+    };
+    setQueries(initialQueries);
+  }, []);
   let drawing = false;
   let currentLine;
   const lines = useRef([]);

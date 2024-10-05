@@ -1,6 +1,7 @@
 
 
 export interface Star {
+    designation: string;
     ra: number;
     dec: number;
     parallax: number;
@@ -36,7 +37,7 @@ export class ExoplanetService {
         return response.json() as Promise<ExoplanetsResponse>;
     }
     async getstars(ra: number, dec: number, radius: number) {
-        const response = await fetch(`${this.apiurlhttp}/cone_search/?ra=${ra}&dec=${dec}&radius=${radius}`);
+        const response = await fetch(`${this.apiurlhttp}cone_search/?ra=${ra}&dec=${dec}&radius=${radius}`);
         // map the response to the StarsResponse interface
         return response.json() as Promise<StarsResponse>;
     }

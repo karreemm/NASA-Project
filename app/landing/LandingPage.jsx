@@ -157,7 +157,7 @@ export default function LandingPage() {
             own constellations. Once you're done, save your artwork and share it with
             us to contribute to our community!
           </p>
-          <Link href="/explore">
+          <Link href="/planets">
             <span className="inline-block border border-white text-xl px-6 py-3 font-bold bg-gradient-nasa bg-clip-text text-transparent rounded-full shadow-lg transition-all duration-300 hover:opacity-90">
               Start Exploring
             </span>
